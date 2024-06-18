@@ -1,9 +1,16 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory, redirect, url_for 
+from flask import Flask, request, jsonify, render_template, send_from_directory, redirect, url_for, secure_filename
 from ultralytics import YOLO
 import os 
-import 
+import request  
+import torch
+from PIL import Image
 
 app = Flask(__name__)
+
+model_path = "model/trained.pt"
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = YOLO(model_path)
+model.to(device)
 
 uploadFolder = 'uploads'
 
@@ -22,8 +29,5 @@ def index():
             file.save(os.path.join(app.config['uploadFolder'], filename))
             return redirect(url_for('uploaded_file', filename=filename))
 
-if request.method == 'GET':
-    
-        
-
-    return render_template('index.html')
+    if request.method == 'GET':
+        return render_template('index.html')
