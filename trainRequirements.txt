@@ -1,2 +1,6 @@
 ultralytics
 roboflow # if you plan on using roboflow repo for training
+pathlib
+cv2
+numpy
+pytorch
